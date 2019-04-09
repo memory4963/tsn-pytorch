@@ -48,8 +48,9 @@ class TSNDataSet(data.Dataset):
         if self.modality == 'RGB' or self.modality == 'RGBDiff':
             return [Image.open(os.path.join(directory, self.image_tmpl.format(idx))).convert('RGB')]
         elif self.modality == 'Flow':
-            x_img = Image.open(os.path.join(directory, self.image_tmpl.format('x', idx))).convert('L')
-            y_img = Image.open(os.path.join(directory, self.image_tmpl.format('y', idx))).convert('L')
+            root, name = directory.rsplit('/', 1)
+            x_img = Image.open(root + '/u/' + name + '/' + self.image_tmpl.format(idx)).convert('L')
+            y_img = Image.open(root + '/v/' + name + '/' + self.image_tmpl.format(idx)).convert('L')
 
             return [x_img, y_img]
 
